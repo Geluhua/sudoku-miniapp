@@ -1,0 +1,68 @@
+<view class="battle-room-page">
+  <!-- 等待阶段 -->
+  <view class="waiting-area flex-col flex-center" wx:if="{{status === 'waiting'}}">
+    <text class="waiting-icon">⏳</text>
+    <text class="waiting-title">等待对手加入...</text>
+    <text class="waiting-code text-secondary">房间号: {{roomCode}}</text>
+    <text class="waiting-tip text-secondary" style="margin-top:12rpx">分享给好友即可开始对战</text>
+    <button class="btn-primary mt-24" bindtap="startSimBattle">开始模拟对战</button>
+    <button class="btn-secondary mt-16" bindtap="goBack">返回</button>
+  </view>
+
+  <!-- 对战中 -->
+  <view class="playing-area" wx:if="{{status === 'playing'}}">
+    <view class="battle-header flex-between">
+      <view class="player-info flex-col flex-center">
+        <text class="player-label">我方</text>
+        <text class="player-time">{{myTimerDisplay}}</text>
+        <text class="player-status text-accent" wx:if="{{myDone}}">已完成</text>
+      </view>
+      <text class="vs-text">VS</text>
+      <view class="player-info flex-col flex-center">
+        <text class="player-label">对方</text>
+        <text class="player-time">{{opponentTimerDisplay}}</text>
+        <text class="player-status text-accent" wx:if="{{opponentDone}}">已完成</text>
+      </view>
+    </view>
+
+    <!-- 棋盘 -->
+    <view class="board-container mt-24">
+      <view class="board" style="--size: 9; --box-rows: 3; --box-cols: 3">
+        <view 
+          class="cell {{cell.isGiven ? 'given' : ''}} {{cell.isSelected ? 'selected' : ''}} {{cell.isRelated ? 'related' : ''}} {{cell.isError ? 'error' : ''}}"
+          wx:for="{{cells}}" wx:key="index"
+          data-index="{{index}}"
+          bindtap="selectCell"
+        >
+          <text class="cell-text" wx:if="{{cell.value}}">{{cell.value}}</text>
+        </view>
+      </view>
+    </view>
+
+    <!-- 数字输入区 -->
+    <view class="number-pad">
+      <view class="num-row flex-row">
+        <view 
+          class="num-key {{selectedNum === item ? 'active' : ''}}"
+          wx:for="{{[1,2,3,4,5,6,7,8,9]}}" wx:key="index"
+          data-num="{{item}}"
+          bindtap="inputNumber"
+        >
+          <text>{{item}}</text>
+        </view>
+      </view>
+      <view class="num-actions flex-row gap-12">
+        <view class="num-key action erase flex-1" bindtap="eraseCell"><text>擦除</text></view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 对战结果 -->
+  <view class="result-area flex-col flex-center" wx:if="{{status === 'result'}}">
+    <text class="result-icon">{{myWon ? '🎉' : '😔'}}</text>
+    <text class="result-title">{{myWon ? '你赢了！' : '你输了'}}</text>
+    <text class="result-detail text-secondary">你的用时: {{myTimerDisplay}}</text>
+    <text class="result-detail text-secondary">对方用时: {{opponentTimerDisplay}}</text>
+    <button class="btn-primary mt-24" bindtap="goBack">返回对战页</button>
+  </view>
+</view>

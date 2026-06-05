@@ -1,0 +1,19 @@
+{
+  "pages": [
+    "pages/login/login",
+    "pages/index/index",
+    "pages/game/game",
+    "pages/leaderboard/leaderboard",
+    "pages/favorites/favorites",
+    "pages/review/review",
+    "pages/battle/battle",
+    "pages/battle-room/battle-room"
+  ],
+  "window": {
+    "navigationBarTitleText": "数独小游戏",
+    "navigationBarBackgroundColor": "#1a1a2e",
+    "navigationBarTextStyle": "white",
+    "backgroundColor": "#0f0f23"
+  },
+  "sitemapLocation": "sitemap.json"
+}

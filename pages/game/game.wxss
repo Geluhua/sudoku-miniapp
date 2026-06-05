@@ -1,0 +1,197 @@
+.game-page {
+  min-height: 100vh;
+  padding: 16rpx 24rpx;
+  display: flex;
+  flex-direction: column;
+  gap: 16rpx;
+}
+
+/* 顶部信息栏 */
+.game-header {
+  padding: 16rpx 24rpx;
+  background: var(--bg-card);
+  border-radius: 16rpx;
+}
+
+.header-item { align-items: center; }
+.header-label { font-size: 22rpx; color: var(--text-secondary); }
+.header-value { font-size: 28rpx; font-weight: 600; }
+.timer { color: var(--accent); font-size: 32rpx; font-family: monospace; }
+
+/* 棋盘 */
+.board-container {
+  display: flex;
+  justify-content: center;
+  flex: 1;
+  align-items: center;
+  min-height: 0;
+}
+
+.board {
+  display: grid;
+  grid-template-columns: repeat(var(--size), 1fr);
+  grid-template-rows: repeat(var(--size), 1fr);
+  gap: 2rpx;
+  background: var(--border-color);
+  border: 4rpx solid var(--border-color);
+  border-radius: 8rpx;
+  aspect-ratio: 1;
+  max-width: 600rpx;
+  max-height: 600rpx;
+  width: 100%;
+}
+
+.cell {
+  position: relative;
+  aspect-ratio: 1;
+  background: var(--bg-cell);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 36rpx;
+  font-weight: 600;
+  transition: background 0.1s;
+}
+
+.cell.given { 
+  background: var(--bg-secondary);
+  color: var(--text-primary);
+  font-weight: 700;
+  opacity: 0.9;
+}
+
+.cell.selected { 
+  background: var(--bg-cell-selected) !important;
+  box-shadow: inset 0 0 0 3rpx var(--accent);
+}
+
+.cell.related { background: var(--bg-cell-related); }
+.cell.same-num { background: var(--bg-cell-same-num); }
+.cell.error { color: var(--error); animation: shake 0.3s; }
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-4rpx); }
+  75% { transform: translateX(4rpx); }
+}
+
+.cell-text { pointer-events: none; }
+
+/* 宫格边界 */
+.border-right {
+  position: absolute;
+  right: 0; top: 0; bottom: 0;
+  width: 3rpx; background: var(--border-color);
+  pointer-events: none;
+}
+
+.border-bottom {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 3rpx; background: var(--border-color);
+  pointer-events: none;
+}
+
+/* 数字输入区 */
+.number-pad {
+  padding: 12rpx 0;
+}
+
+.num-row {
+  justify-content: center;
+  gap: 12rpx;
+  margin-bottom: 12rpx;
+}
+
+.num-key {
+  width: 72rpx;
+  height: 72rpx;
+  border-radius: 12rpx;
+  background: var(--bg-card);
+  border: 2rpx solid var(--border-color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 36rpx;
+  font-weight: 700;
+  color: var(--text-primary);
+  transition: all 0.15s;
+}
+
+.num-key.active {
+  border-color: var(--accent);
+  background: var(--bg-cell-selected);
+  color: var(--accent);
+}
+
+.num-key.action {
+  width: auto;
+  font-size: 26rpx;
+  background: var(--bg-secondary);
+}
+
+.num-key.erase { color: var(--error); border-color: var(--error); }
+.num-key.hint { color: var(--warning); border-color: var(--warning); }
+
+/* 音效控制 */
+.sound-controls {
+  justify-content: center;
+  padding: 8rpx 0 16rpx;
+}
+
+.sound-item {
+  padding: 8rpx 16rpx;
+  border-radius: 20rpx;
+  background: var(--bg-card);
+}
+
+.sound-icon { font-size: 28rpx; }
+.sound-label { font-size: 22rpx; color: var(--text-secondary); }
+
+/* 完成弹窗 */
+.modal-mask {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+}
+
+.modal-card {
+  width: 560rpx;
+  padding: 40rpx;
+  text-align: center;
+}
+
+.modal-title {
+  font-size: 36rpx;
+  font-weight: 700;
+  color: var(--accent);
+  margin-bottom: 24rpx;
+}
+
+.modal-body {
+  margin-bottom: 32rpx;
+}
+
+.modal-time {
+  font-size: 40rpx;
+  font-weight: 700;
+  font-family: monospace;
+  color: var(--gold);
+}
+
+.modal-detail {
+  font-size: 24rpx;
+  color: var(--text-secondary);
+}
+
+.modal-result {
+  font-size: 32rpx;
+  font-weight: 600;
+}
+
+.modal-actions { gap: 16rpx; }
+.modal-actions button { font-size: 28rpx; }

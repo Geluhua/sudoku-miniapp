@@ -1,0 +1,25 @@
+<view class="fav-page">
+  <view class="fav-list" wx:if="{{favorites.length > 0}}">
+    <view class="fav-item card flex-row gap-16" wx:for="{{favorites}}" wx:key="index">
+      <view class="fav-icon flex-center">
+        <text>📋</text>
+      </view>
+      <view class="fav-info flex-1 flex-col">
+        <text class="fav-stage">{{getStageLabel(item.stage)}}</text>
+        <text class="fav-detail text-secondary">难度: {{item.difficulty}}</text>
+        <text class="fav-date text-secondary">收藏于: {{item.createdAt}}</text>
+      </view>
+      <view class="fav-actions flex-row gap-12">
+        <view class="btn-small" bindtap="goReview" data-index="{{index}}">复盘</view>
+        <view class="btn-small" style="background:var(--error)" bindtap="goChallenge" data-index="{{index}}">挑战</view>
+        <view class="btn-small" style="background:var(--bg-secondary);color:var(--text-secondary)" bindtap="removeFav" data-index="{{index}}">删除</view>
+      </view>
+    </view>
+  </view>
+
+  <view class="empty-area flex-center" wx:if="{{favorites.length === 0}}">
+    <text class="empty-icon">⭐</text>
+    <text class="text-secondary mt-24">还没有收藏的题目</text>
+    <text class="text-secondary" style="font-size:22rpx;margin-top:8rpx">完成一局游戏后可收藏</text>
+  </view>
+</view>

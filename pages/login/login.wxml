@@ -1,0 +1,20 @@
+<view class="login-page">
+  <view class="login-container">
+    <view class="logo-area">
+      <view class="logo-grid">
+        <view class="logo-cell" wx:for="{{logoNums}}" wx:key="index">
+          <text wx:if="{{item > 0}}" class="logo-num">{{item}}</text>
+        </view>
+      </view>
+      <text class="app-name">数独小游戏</text>
+      <text class="app-desc">挑战你的逻辑思维</text>
+    </view>
+    <button class="login-btn" bindtap="handleLogin" loading="{{loading}}">
+      <text class="login-btn-text">微信一键登录</text>
+    </button>
+    <view class="guest-entry" bindtap="handleGuestLogin">
+      <text class="guest-text">游客模式体验</text>
+    </view>
+    <text class="privacy-tip">登录即表示同意《用户协议》和《隐私政策》</text>
+  </view>
+</view>

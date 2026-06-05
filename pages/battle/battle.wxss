@@ -1,0 +1,49 @@
+.battle-page { min-height: 100vh; padding: 20rpx 24rpx; }
+
+.section-title {
+  font-size: 30rpx;
+  font-weight: 700;
+  margin-bottom: 20rpx;
+  color: var(--text-primary);
+}
+
+.stats-grid { gap: 16rpx; }
+
+.stat-item { gap: 8rpx; }
+.stat-num {
+  font-size: 48rpx;
+  font-weight: 700;
+  color: var(--gold);
+}
+.stat-label { font-size: 24rpx; }
+
+.battle-rank-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12rpx;
+}
+
+.battle-rank-item {
+  padding: 16rpx 0;
+  border-bottom: 1rpx solid var(--border-color);
+}
+
+.battle-rank-badge {
+  width: 48rpx;
+  height: 48rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg-secondary);
+  border-radius: 50%;
+  font-size: 24rpx;
+  color: var(--text-secondary);
+}
+
+.battle-rank-avatar {
+  width: 56rpx; height: 56rpx;
+  border-radius: 50%;
+  background: var(--bg-secondary);
+}
+
+.battle-actions { margin-top: 32rpx; }
