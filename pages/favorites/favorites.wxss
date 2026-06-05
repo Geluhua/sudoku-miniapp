@@ -1,0 +1,29 @@
+.fav-page { min-height: 100vh; padding: 20rpx 24rpx; }
+
+.fav-list { display: flex; flex-direction: column; gap: 16rpx; }
+
+.fav-item { position: relative; }
+
+.fav-icon {
+  width: 80rpx; height: 80rpx;
+  background: var(--bg-secondary);
+  border-radius: 16rpx;
+  font-size: 36rpx;
+}
+
+.fav-stage { font-size: 30rpx; font-weight: 600; }
+.fav-detail, .fav-date { font-size: 22rpx; margin-top: 4rpx; }
+
+.fav-actions { flex-direction: column; gap: 8rpx; }
+.fav-actions .btn-small {
+  padding: 8rpx 20rpx;
+  font-size: 22rpx;
+  white-space: nowrap;
+}
+
+.empty-area {
+  flex-direction: column;
+  padding: 160rpx 0;
+}
+
+.empty-icon { font-size: 72rpx; }

@@ -1,0 +1,53 @@
+<view class="review-page">
+  <!-- 没有复盘数据 -->
+  <view class="empty-area flex-center" wx:if="{{!hasData}}">
+    <text class="text-secondary">暂无复盘数据</text>
+  </view>
+
+  <!-- 复盘区域 -->
+  <view wx:if="{{hasData}}">
+    <!-- 题目信息 -->
+    <view class="review-info card flex-between">
+      <view class="flex-col">
+        <text class="review-stage">{{stageLabel}}</text>
+        <text class="text-secondary">难度: {{difficulty}}</text>
+      </view>
+      <view class="review-step-indicator text-accent">
+        步骤 {{currentStep}}/{{totalSteps}}
+      </view>
+    </view>
+
+    <!-- 棋盘 -->
+    <view class="board-container">
+      <view class="board" style="--size: {{size}}; --box-rows: {{boxRows}}; --box-cols: {{boxCols}}">
+        <view 
+          class="cell {{cell.isGiven ? 'given' : ''}} {{cell.isNew ? 'new-fill' : ''}} {{cell.isHighlight ? 'highlight' : ''}}"
+          wx:for="{{cells}}" wx:key="index"
+        >
+          <text class="cell-text" wx:if="{{cell.value}}">{{cell.value}}</text>
+        </view>
+      </view>
+    </view>
+
+    <!-- 进度条 -->
+    <view class="progress-container">
+      <view class="progress-track">
+        <view class="progress-fill" style="width: {{progressPercent}}%"></view>
+      </view>
+    </view>
+
+    <!-- 控制按钮 -->
+    <view class="review-controls flex-row gap-16">
+      <button class="btn-secondary flex-1" bindtap="stepPrev" disabled="{{isPlaying}}">上一步</button>
+      <button class="btn-primary flex-1" bindtap="togglePlay">
+        {{isPlaying ? '暂停' : '播放'}}
+      </button>
+      <button class="btn-secondary flex-1" bindtap="stepNext" disabled="{{isPlaying}}">下一步</button>
+    </view>
+
+    <view class="review-restart mt-24 flex-center">
+      <button class="btn-secondary" bindtap="restart">重新播放</button>
+      <button class="btn-primary" bindtap="reChallenge" style="margin-left:20rpx">重新挑战</button>
+    </view>
+  </view>
+</view>

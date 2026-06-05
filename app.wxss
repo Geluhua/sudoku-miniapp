@@ -1,0 +1,95 @@
+/* 全局样式变量与通用类 */
+page {
+  --bg-primary: #0f0f23;
+  --bg-secondary: #1a1a2e;
+  --bg-card: #16213e;
+  --bg-cell: #1a2744;
+  --bg-cell-selected: #2d4a7a;
+  --bg-cell-related: #1e3355;
+  --bg-cell-same-num: #253b5e;
+  --text-primary: #e0e0e0;
+  --text-secondary: #8892b0;
+  --text-accent: #64ffda;
+  --text-error: #ff6b6b;
+  --text-gold: #ffd700;
+  --border-color: #2a3a5c;
+  --accent: #64ffda;
+  --accent-dim: #3d8b7a;
+  --error: #ff6b6b;
+  --warning: #ffa726;
+  --success: #66bb6a;
+  --gold: #ffd700;
+  --purple: #7c4dff;
+  --pink: #ff4081;
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-size: 28rpx;
+  line-height: 1.5;
+  min-height: 100vh;
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, var(--accent-dim), var(--accent));
+  color: var(--bg-primary);
+  border: none;
+  border-radius: 16rpx;
+  padding: 20rpx 40rpx;
+  font-size: 30rpx;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.btn-primary[disabled] { opacity: 0.4; }
+
+.btn-secondary {
+  background: var(--bg-card);
+  color: var(--text-primary);
+  border: 2rpx solid var(--border-color);
+  border-radius: 16rpx;
+  padding: 16rpx 32rpx;
+  font-size: 28rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-danger {
+  background: var(--error);
+  color: #fff;
+  border: none;
+  border-radius: 16rpx;
+  padding: 18rpx 36rpx;
+  font-size: 28rpx;
+  font-weight: 600;
+}
+
+.card {
+  background: var(--bg-card);
+  border-radius: 20rpx;
+  padding: 24rpx;
+  margin: 16rpx 0;
+  border: 1rpx solid var(--border-color);
+}
+
+.locked { filter: grayscale(80%); opacity: 0.5; }
+
+.flex-row { display: flex; flex-direction: row; align-items: center; }
+.flex-col { display: flex; flex-direction: column; }
+.flex-center { display: flex; align-items: center; justify-content: center; }
+.flex-between { display: flex; align-items: center; justify-content: space-between; }
+.flex-wrap { flex-wrap: wrap; }
+.flex-1 { flex: 1; }
+.gap-12 { gap: 12rpx; }
+.gap-16 { gap: 16rpx; }
+.gap-20 { gap: 20rpx; }
+.text-center { text-align: center; }
+.text-accent { color: var(--accent); }
+.text-error { color: var(--error); }
+.text-gold { color: var(--gold); }
+.text-secondary { color: var(--text-secondary); }
+.mt-16 { margin-top: 16rpx; }
+.mt-24 { margin-top: 24rpx; }
+.mb-16 { margin-bottom: 16rpx; }
+.px-24 { padding-left: 24rpx; padding-right: 24rpx; }

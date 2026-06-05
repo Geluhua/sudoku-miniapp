@@ -1,0 +1,43 @@
+<view class="lb-page">
+  <!-- Tab切换 -->
+  <view class="tabs flex-row">
+    <view class="tab {{currentTab==='clear'?'active':''}}" bindtap="switchTab" data-tab="clear">通关榜</view>
+    <view class="tab {{currentTab==='four'?'active':''}}" bindtap="switchTab" data-tab="four">四宫</view>
+    <view class="tab {{currentTab==='six'?'active':''}}" bindtap="switchTab" data-tab="six">六宫</view>
+    <view class="tab {{currentTab==='nine'?'active':''}}" bindtap="switchTab" data-tab="nine">九宫</view>
+  </view>
+
+  <!-- 加载状态 -->
+  <view class="loading-area flex-center" wx:if="{{loading}}">
+    <text class="text-secondary">加载中...</text>
+  </view>
+
+  <!-- 排行榜列表 -->
+  <view class="rank-list" wx:if="{{!loading && rankedData.length > 0}}">
+    <view class="rank-item flex-row gap-16" wx:for="{{rankedData}}" wx:key="index">
+      <view class="rank-badge rank-{{index + 1 <= 3 ? index + 1 : 'other'}}">
+        <text wx:if="{{index === 0}}">🥇</text>
+        <text wx:elif="{{index === 1}}">🥈</text>
+        <text wx:elif="{{index === 2}}">🥉</text>
+        <text wx:else>{{index + 1}}</text>
+      </view>
+      <image class="rank-avatar" src="{{item.avatarUrl || '/images/default-avatar.png'}}" mode="aspectFill" />
+      <view class="rank-info flex-1 flex-col">
+        <text class="rank-name">{{item.nickname || '玩家'}}</text>
+      </view>
+      <view class="rank-stats flex-col" wx:if="{{currentTab === 'clear'}}">
+        <text class="rank-stat-main">{{item.clearCount || 0}}关</text>
+        <text class="rank-stat-sub">{{formatTime(item.totalTime || 0)}}</text>
+      </view>
+      <view class="rank-stats flex-col" wx:else>
+        <text class="rank-stat-main">{{formatTime(item.bestTime || 0)}}</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 空状态 -->
+  <view class="empty-area flex-center" wx:if="{{!loading && rankedData.length === 0}}">
+    <text class="text-secondary">暂无排行数据</text>
+    <button class="btn-secondary mt-24" bindtap="loadData">刷新</button>
+  </view>
+</view>

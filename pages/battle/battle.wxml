@@ -1,0 +1,47 @@
+<view class="battle-page">
+  <!-- 对战统计 -->
+  <view class="stats-area card">
+    <text class="section-title">对战统计</text>
+    <view class="stats-grid flex-row">
+      <view class="stat-item flex-col flex-center flex-1">
+        <text class="stat-num">{{battleStats.total}}</text>
+        <text class="stat-label text-secondary">对战场数</text>
+      </view>
+      <view class="stat-item flex-col flex-center flex-1">
+        <text class="stat-num" style="color:var(--success)">{{winRate}}%</text>
+        <text class="stat-label text-secondary">胜率</text>
+      </view>
+      <view class="stat-item flex-col flex-center flex-1">
+        <text class="stat-num" style="color:var(--accent)">{{avgTime}}</text>
+        <text class="stat-label text-secondary">平均时长</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 对战排行 -->
+  <view class="battle-rank card">
+    <text class="section-title">对战排行</text>
+    <view class="battle-rank-list" wx:if="{{battleRankData.length > 0}}">
+      <view class="battle-rank-item flex-row gap-12" wx:for="{{battleRankData}}" wx:key="index">
+        <text class="battle-rank-badge">{{index + 1}}</text>
+        <image class="battle-rank-avatar" src="{{item.avatarUrl || '/images/default-avatar.png'}}" mode="aspectFill" />
+        <text class="flex-1">{{item.nickname || '玩家'}}</text>
+        <text class="text-accent">{{item.wins}}胜</text>
+        <text class="text-secondary">{{item.winRate}}%</text>
+      </view>
+    </view>
+    <view class="flex-center mt-16" wx:if="{{battleRankData.length === 0}}">
+      <text class="text-secondary">暂无对战记录</text>
+    </view>
+  </view>
+
+  <!-- 对战操作 -->
+  <view class="battle-actions flex-row gap-16 mt-24">
+    <button class="btn-primary flex-1" bindtap="createRoom" style="background:linear-gradient(135deg, var(--purple), var(--pink))">
+      创建对战房间
+    </button>
+    <button class="btn-secondary flex-1" bindtap="joinRoom">
+      加入房间
+    </button>
+  </view>
+</view>

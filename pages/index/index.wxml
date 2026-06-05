@@ -1,0 +1,115 @@
+<view class="index-page">
+  <!-- 顶部用户信息区 -->
+  <view class="header-area">
+    <view class="user-info flex-row gap-16">
+      <image class="avatar" src="{{userInfo.avatarUrl || '/images/default-avatar.png'}}" mode="aspectFill" />
+      <view class="flex-col">
+        <text class="nickname">{{userInfo.nickName || '数独玩家'}}</text>
+        <text class="text-secondary" style="font-size:22rpx">欢迎回来</text>
+      </view>
+    </view>
+
+    <!-- 数独值显示 -->
+    <view class="value-card card">
+      <view class="flex-between">
+        <view class="flex-row gap-12">
+          <text class="value-icon">⚡</text>
+          <text class="value-label">数独值</text>
+        </view>
+        <text class="value-count">{{totalValue}}</text>
+      </view>
+      <view class="value-detail flex-row gap-20 mt-16">
+        <text class="text-secondary">每日: {{sudokuValue.daily}}</text>
+        <text class="text-secondary">|</text>
+        <text class="text-secondary">累积: {{sudokuValue.bonus}}</text>
+      </view>
+      <view class="value-actions flex-row gap-16 mt-16">
+        <button class="btn-primary flex-1" style="padding:14rpx" bindtap="handleShare" plain>
+          <text>分享 +3</text>
+        </button>
+        <button class="btn-secondary flex-1" style="padding:14rpx" bindtap="handleWatchAd" plain>
+          <text>广告 +3</text>
+        </button>
+      </view>
+    </view>
+  </view>
+
+  <!-- 阶段选择区 -->
+  <view class="stages-area">
+    <text class="section-title">选择阶段</text>
+    <view class="stages-grid">
+      <!-- 四宫 -->
+      <view class="stage-card card {{stageUnlock.four ? '' : 'locked'}}" 
+            bindtap="selectStage" data-stage="four">
+        <view class="stage-header flex-between">
+          <text class="stage-name">四宫数独</text>
+          <text class="stage-badge">启蒙</text>
+        </view>
+        <text class="stage-desc">4x4 入门挑战</text>
+        <view class="stage-progress mt-16">
+          <text class="progress-text">达标 {{gameProgress.four.passed}} 局</text>
+          <view class="progress-bar">
+            <view class="progress-fill" style="width: {{gameProgress.four.passed % 3 / 3 * 100}}%"></view>
+          </view>
+        </view>
+        <view wx:if="{{!stageUnlock.four}}" class="lock-overlay flex-center">
+          <text class="lock-icon">🔒</text>
+        </view>
+      </view>
+
+      <!-- 六宫 -->
+      <view class="stage-card card {{stageUnlock.six ? '' : 'locked'}}" 
+            bindtap="selectStage" data-stage="six">
+        <view class="stage-header flex-between">
+          <text class="stage-name">六宫数独</text>
+          <text class="stage-badge" style="background:#7c4dff">儿童</text>
+        </view>
+        <text class="stage-desc">6x6 进阶挑战</text>
+        <view class="stage-progress mt-16" wx:if="{{stageUnlock.six}}">
+          <text class="progress-text">达标 {{gameProgress.six.passed}} 局</text>
+          <view class="progress-bar">
+            <view class="progress-fill" style="width: {{gameProgress.six.passed % 3 / 3 * 100}}%"></view>
+          </view>
+        </view>
+        <view wx:if="{{!stageUnlock.six}}" class="lock-overlay flex-center">
+          <text class="lock-desc">四宫连续3局达标解锁</text>
+        </view>
+      </view>
+
+      <!-- 九宫 -->
+      <view class="stage-card card {{stageUnlock.nine ? '' : 'locked'}}" 
+            bindtap="selectStage" data-stage="nine">
+        <view class="stage-header flex-between">
+          <text class="stage-name">九宫数独</text>
+          <text class="stage-badge" style="background:#ff4081">标准</text>
+        </view>
+        <text class="stage-desc">9x9 经典数独</text>
+        <view class="stage-progress mt-16" wx:if="{{stageUnlock.nine}}">
+          <text class="progress-text">达标 {{gameProgress.nine.passed}} 局</text>
+          <view class="progress-bar">
+            <view class="progress-fill" style="width: {{gameProgress.nine.passed % 3 / 3 * 100}}%"></view>
+          </view>
+        </view>
+        <view wx:if="{{!stageUnlock.nine}}" class="lock-overlay flex-center">
+          <text class="lock-desc">六宫连续3局达标解锁</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 底部入口 -->
+  <view class="entries-area flex-row gap-16">
+    <view class="entry-btn card flex-1 flex-center" bindtap="goToLeaderboard">
+      <text class="entry-icon">🏆</text>
+      <text class="entry-label">排行榜</text>
+    </view>
+    <view class="entry-btn card flex-1 flex-center" bindtap="goToFavorites">
+      <text class="entry-icon">⭐</text>
+      <text class="entry-label">收藏</text>
+    </view>
+    <view class="entry-btn card flex-1 flex-center" bindtap="goToBattle">
+      <text class="entry-icon">⚔️</text>
+      <text class="entry-label">对战</text>
+    </view>
+  </view>
+</view>
