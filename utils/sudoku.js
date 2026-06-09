@@ -130,7 +130,8 @@ function getDifficultyConfig(stage, difficulty) {
     : configs.four.easy
 }
 
- 当前难度等级名称
+/**
+ * 根据通关次数获取当前难度等级名称
  */
 function getCurrentDifficulty(stage, passedCount) {
   // 每连续通关3局升一个难度
@@ -168,16 +169,23 @@ function isBoardComplete(board, solution, size) {
 }
 
 /**
- * 获取与指定格子相关的格子（同行、同列、同宫）
+ * 获取同行、同列的格子索引（不含自身）
  */
-function getRelatedCells(row, col, size) {
+function getRowColCells(row, col, size) {
   const related = new Set()
-  // 同行同列
   for (let i = 0; i < size; i++) {
     related.add(i * size + col)
     related.add(row * size + i)
   }
-  // 同宫
+  related.delete(row * size + col)
+  return Array.from(related)
+}
+
+/**
+ * 获取与指定格子相关的格子（同行、同列、同宫）
+ */
+function getRelatedCells(row, col, size) {
+  const related = new Set(getRowColCells(row, col, size))
   const box = getBoxConfig(size)
   const boxRow = Math.floor(row / box.rows) * box.rows
   const boxCol = Math.floor(col / box.cols) * box.cols
@@ -197,6 +205,7 @@ module.exports = {
   getCurrentDifficulty,
   checkCell,
   isBoardComplete,
+  getRowColCells,
   getRelatedCells,
   getBoxConfig,
   getValidNumbers

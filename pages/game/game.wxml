@@ -1,4 +1,19 @@
 <view class="game-page">
+  <!-- 隐藏输入框：捕获物理键盘 / 外接键盘输入 -->
+  <input
+    class="keyboard-input"
+    type="digit"
+    maxlength="1"
+    value="{{keyboardValue}}"
+    focus="{{keyboardFocus}}"
+    hold-keyboard="{{true}}"
+    adjust-position="{{false}}"
+    confirm-type="done"
+    bindinput="onKeyboardInput"
+    bindkeydown="onKeyboardKeyDown"
+    bindblur="onKeyboardBlur"
+  />
+
   <!-- 顶部信息栏 -->
   <view class="game-header flex-between">
     <view class="header-item flex-col">
@@ -19,17 +34,21 @@
 
   <!-- 棋盘 -->
   <view class="board-container">
-    <view class="board" style="--size: {{size}}; --box-rows: {{boxRows}}; --box-cols: {{boxCols}}">
+    <view class="board size-{{size}}" style="--size: {{size}}; --box-rows: {{boxRows}}; --box-cols: {{boxCols}}">
       <view 
-        class="cell {{cell.isGiven ? 'given' : ''}} {{cell.isSelected ? 'selected' : ''}} {{cell.isRelated ? 'related' : ''}} {{cell.isSameNum ? 'same-num' : ''}} {{cell.isError ? 'error' : ''}}"
+        class="cell {{cell.isGiven ? 'given' : 'editable'}} {{!cell.value ? 'empty' : 'filled'}} {{cell.isSelected ? 'selected' : ''}} {{cell.isRelated ? 'related' : ''}} {{cell.isSameNum ? 'same-num' : ''}} {{cell.isError ? 'error' : ''}}"
         wx:for="{{cells}}" wx:for-item="cell" wx:key="index"
         data-index="{{index}}"
         bindtap="selectCell"
+        hover-class="cell-press"
+        hover-stay-time="80"
       >
-        <text class="cell-text" wx:if="{{cell.value}}">{{cell.value}}</text>
+        <view class="cell-selected-glow" wx:if="{{cell.isSelected}}"></view>
+        <text class="cell-text {{cell.isGiven ? 'given-text' : 'user-text'}}" wx:if="{{cell.value}}">{{cell.value}}</text>
+        <view class="cell-empty-hint" wx:if="{{!cell.value && !cell.isGiven}}"></view>
         <!-- 宫格边界 -->
-        <view class="border-right" wx:if="{{(index + 1) % boxCols === 0 && (index + 1) % size !== 0}}"></view>
-        <view class="border-bottom" wx:if="{{Math.floor(index / size) % boxRows === boxRows - 1 && Math.floor(index / size) !== size - 1}}"></view>
+        <view class="border-right" wx:if="{{cell.showBorderRight}}"></view>
+        <view class="border-bottom" wx:if="{{cell.showBorderBottom}}"></view>
       </view>
     </view>
   </view>
@@ -42,29 +61,32 @@
         wx:for="{{numbers}}" wx:key="index"
         data-num="{{item}}"
         bindtap="inputNumber"
+        hover-class="num-key-hover"
+        hover-stay-time="100"
       >
         <text>{{item}}</text>
       </view>
     </view>
     <view class="num-actions flex-row gap-12">
-      <view class="num-key action erase flex-1" bindtap="eraseCell">
+      <view class="num-key action erase flex-1" bindtap="eraseCell" hover-class="num-key-hover" hover-stay-time="100">
         <text>擦除</text>
       </view>
-      <view class="num-key action hint flex-1" bindtap="useHint">
+      <view class="num-key action hint flex-1" bindtap="useHint" hover-class="num-key-hover" hover-stay-time="100">
         <text>提示</text>
       </view>
     </view>
+    <text class="keyboard-tip">选中格高亮同行、同列 · 键盘 1-{{size}} 填数 · 方向键移动 · 退格擦除</text>
   </view>
 
   <!-- 音效控制 -->
-  <view class="sound-controls flex-row gap-20">
-    <view class="sound-item flex-row gap-8" bindtap="toggleMusic">
+  <view class="sound-controls flex-row">
+    <view class="sound-item flex-row gap-8" bindtap="toggleMusic" hover-class="sound-item-hover" hover-stay-time="100">
       <text class="sound-icon">{{musicEnabled ? '🎵' : '🔇'}}</text>
-      <text class="sound-label">音乐</text>
+      <text class="sound-label">{{musicEnabled ? '音乐开' : '音乐关'}}</text>
     </view>
-    <view class="sound-item flex-row gap-8" bindtap="toggleSound">
+    <view class="sound-item flex-row gap-8" bindtap="toggleSound" hover-class="sound-item-hover" hover-stay-time="100">
       <text class="sound-icon">{{soundEnabled ? '🔊' : '🔇'}}</text>
-      <text class="sound-label">音效</text>
+      <text class="sound-label">{{soundEnabled ? '音效开' : '音效关'}}</text>
     </view>
   </view>
 
@@ -74,14 +96,14 @@
       <text class="modal-title">{{modalTitle}}</text>
       <view class="modal-body flex-col gap-12">
         <text class="modal-time">完成时间: {{timerDisplay}}</text>
-        <text class="modal-detail">标准时间: {{formatTime(timeLimit)}}</text>
+        <text class="modal-detail">标准时间: {{timeLimitDisplay}}</text>
         <text class="modal-result {{isPassed ? 'text-accent' : 'text-error'}}">
           {{isPassed ? '达标! ✔' : '超时,未达标 ✘'}}
         </text>
       </view>
       <view class="modal-actions flex-row gap-16">
-        <button class="btn-secondary flex-1" bindtap="collectPuzzle">收藏题目</button>
-        <button class="btn-primary flex-1" bindtap="continueGame">继续</button>
+        <button class="btn-secondary flex-1" bindtap="collectPuzzle" hover-class="btn-secondary-hover">收藏题目</button>
+        <button class="btn-primary flex-1" bindtap="continueGame" hover-class="btn-primary-hover">继续</button>
       </view>
     </view>
   </view>

@@ -4,6 +4,27 @@ var sudoku = require("../../utils/sudoku.js")
 var audio = require("../../utils/audio.js")
 var storage = require("../../utils/storage.js")
 
+function buildCells(puzzle, size, boxRows, boxCols) {
+  var cells = []
+  for (var r = 0; r < size; r++) {
+    for (var c = 0; c < size; c++) {
+      var val = puzzle[r][c]
+      var isGiven = val !== 0
+      cells.push({
+        value: val,
+        isGiven: isGiven,
+        isSelected: false,
+        isRelated: false,
+        isSameNum: false,
+        isError: false,
+        showBorderRight: (c + 1) % boxCols === 0 && c < size - 1,
+        showBorderBottom: (r + 1) % boxRows === 0 && r < size - 1
+      })
+    }
+  }
+  return cells
+}
+
 Page({
   data: {
     stage: "four",
@@ -18,11 +39,14 @@ Page({
     mistakesLeft: 3,
     difficultyName: "",
     timeLimit: 300,
+    timeLimitDisplay: "05:00",
     musicEnabled: true,
     soundEnabled: true,
     showComplete: false,
     modalTitle: "",
-    isPassed: false
+    isPassed: false,
+    keyboardFocus: false,
+    keyboardValue: ""
   },
 
   onLoad: function(options) {
@@ -56,16 +80,8 @@ Page({
     var result = sudoku.generatePuzzle(size, holes)
     var puzzle = result.puzzle
     var solution = result.solution
-    var cells = []
-    var givenMask = []
-    for (var r = 0; r < size; r++) {
-      for (var c = 0; c < size; c++) {
-        var val = puzzle[r][c]
-        var isGiven = val !== 0
-        cells.push({ value: val, isGiven: isGiven, isSelected: false, isRelated: false, isSameNum: false, isError: false })
-        givenMask.push(isGiven)
-      }
-    }
+    var cells = buildCells(puzzle, size, boxConfig.rows, boxConfig.cols)
+    var givenMask = cells.map(function(cell) { return cell.isGiven })
 
     this.setData({
       stage: stage, size: size,
@@ -73,8 +89,12 @@ Page({
       numbers: nums, cells: cells,
       selectedIndex: -1, selectedNum: 0,
       timerDisplay: "00:00", mistakesLeft: 3,
-      difficultyName: diffConfig.name, timeLimit: diffConfig.timeLimit,
-      showComplete: false
+      difficultyName: diffConfig.name,
+      timeLimit: diffConfig.timeLimit,
+      timeLimitDisplay: this.formatTime(diffConfig.timeLimit),
+      showComplete: false,
+      keyboardFocus: false,
+      keyboardValue: ""
     })
 
     this._puzzle = puzzle
@@ -99,16 +119,8 @@ Page({
     var puzzle = challenge.puzzle
     var solution = challenge.solution
 
-    var cells = []
-    var givenMask = []
-    for (var r = 0; r < size; r++) {
-      for (var c = 0; c < size; c++) {
-        var val = puzzle[r][c]
-        var isGiven = val !== 0
-        cells.push({ value: val, isGiven: isGiven, isSelected: false, isRelated: false, isSameNum: false, isError: false })
-        givenMask.push(isGiven)
-      }
-    }
+    var cells = buildCells(puzzle, size, boxConfig.rows, boxConfig.cols)
+    var givenMask = cells.map(function(cell) { return cell.isGiven })
 
     this.setData({
       stage: stage, size: size,
@@ -118,7 +130,10 @@ Page({
       timerDisplay: "00:00", mistakesLeft: 3,
       difficultyName: challenge.difficulty || diffConfig.name,
       timeLimit: diffConfig.timeLimit,
-      showComplete: false
+      timeLimitDisplay: this.formatTime(diffConfig.timeLimit),
+      showComplete: false,
+      keyboardFocus: false,
+      keyboardValue: ""
     })
 
     this._puzzle = puzzle
@@ -127,6 +142,79 @@ Page({
     this._givenMask = givenMask
     this._stepRecords = []
     this.startTimer(); audio.setBGMEnabled(app.globalData.musicEnabled); audio.setSFXEnabled(app.globalData.soundEnabled)
+  },
+
+  // ---- 键盘输入 ----
+  isDesktopInput: function() {
+    try {
+      var platform = wx.getSystemInfoSync().platform
+      return platform === "devtools" || platform === "windows" || platform === "mac"
+    } catch (e) {
+      return false
+    }
+  },
+
+  focusKeyboard: function() {
+    if (this.data.showComplete || this.data.selectedIndex < 0) return
+    var self = this
+    this.setData({ keyboardFocus: false, keyboardValue: "" }, function() {
+      self.setData({ keyboardFocus: true })
+    })
+  },
+
+  onKeyboardInput: function(e) {
+    if (this.data.showComplete || this.data.selectedIndex < 0) {
+      this.setData({ keyboardValue: "" })
+      return
+    }
+    var raw = String(e.detail.value || "")
+    if (!raw) return
+    var num = Number(raw.slice(-1))
+    if (num >= 1 && num <= this.data.size) {
+      this.setData({ selectedNum: num, keyboardValue: "" })
+      this.fillCell(this.data.selectedIndex, num)
+      this.focusKeyboard()
+      return
+    }
+    this.setData({ keyboardValue: "" })
+  },
+
+  onKeyboardKeyDown: function(e) {
+    if (this.data.showComplete) return
+    var key = e.detail.key
+    if (key === "Backspace" || key === "Delete") {
+      this.eraseCell()
+      this.focusKeyboard()
+      return
+    }
+    if (key === "ArrowUp" || key === "ArrowDown" || key === "ArrowLeft" || key === "ArrowRight") {
+      this.moveSelection(key)
+    }
+  },
+
+  onKeyboardBlur: function() {
+    if (!this.isDesktopInput()) return
+    if (this.data.showComplete || this.data.selectedIndex < 0) return
+    var self = this
+    setTimeout(function() {
+      if (!self.data.showComplete && self.data.selectedIndex >= 0) {
+        self.focusKeyboard()
+      }
+    }, 120)
+  },
+
+  moveSelection: function(key) {
+    var size = this.data.size
+    var index = this.data.selectedIndex
+    if (index < 0) index = 0
+    var row = Math.floor(index / size)
+    var col = index % size
+    if (key === "ArrowUp" && row > 0) row--
+    else if (key === "ArrowDown" && row < size - 1) row++
+    else if (key === "ArrowLeft" && col > 0) col--
+    else if (key === "ArrowRight" && col < size - 1) col++
+    else return
+    this.selectCell({ currentTarget: { dataset: { index: row * size + col } } })
   },
 
   // ---- 计时器 ----
@@ -171,7 +259,7 @@ Page({
     if (!newCells[index].isGiven) {
       var row = Math.floor(index / this.data.size)
       var col = index % this.data.size
-      var related = sudoku.getRelatedCells(row, col, this.data.size)
+      var related = sudoku.getRowColCells(row, col, this.data.size)
       for (var ri = 0; ri < related.length; ri++) {
         newCells[related[ri]].isRelated = true
       }
@@ -183,7 +271,10 @@ Page({
       }
     }
 
-    this.setData({ cells: newCells, selectedIndex: index, selectedNum: this.data.selectedNum })
+    var self = this
+    this.setData({ cells: newCells, selectedIndex: index, selectedNum: this.data.selectedNum }, function() {
+      if (self.isDesktopInput()) self.focusKeyboard()
+    })
   },
 
   // ---- 数字输入 ----
@@ -321,7 +412,9 @@ Page({
     this.setData({
       showComplete: true,
       modalTitle: modalTitle,
-      isPassed: isPassed
+      isPassed: isPassed,
+      keyboardFocus: false,
+      keyboardValue: ""
     })
   },
 
