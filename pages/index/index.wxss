@@ -1,46 +1,52 @@
 .index-page {
-  padding: 20rpx 24rpx 40rpx;
+  padding: 24rpx 28rpx 48rpx;
   min-height: 100vh;
 }
 
-.header-area { margin-bottom: 24rpx; }
+.header-area { margin-bottom: 28rpx; }
 
 .avatar {
-  width: 80rpx;
-  height: 80rpx;
+  width: 84rpx;
+  height: 84rpx;
   border-radius: 50%;
   background: var(--bg-cell);
-  border: 2rpx solid var(--accent);
+  border: 3rpx solid var(--accent);
+  box-shadow: 0 0 20rpx rgba(94, 234, 212, 0.2);
 }
 
 .nickname {
-  font-size: 32rpx;
+  font-size: 34rpx;
   font-weight: 600;
 }
 
 /* 数独值卡片 */
 .value-card {
-  margin-top: 20rpx;
-  background: linear-gradient(135deg, #16213e, #1a2744);
-  border: 1rpx solid var(--accent-dim);
+  margin-top: 24rpx;
+  background: linear-gradient(135deg, var(--bg-card) 0%, #1e2d4a 100%);
+  border: 1rpx solid rgba(94, 234, 212, 0.2);
+  box-shadow: var(--shadow-sm), var(--shadow-glow);
 }
 
 .value-icon { font-size: 36rpx; }
 .value-label { font-size: 28rpx; color: var(--text-secondary); }
 .value-count {
-  font-size: 48rpx;
+  font-size: 52rpx;
   font-weight: 700;
   color: var(--gold);
+  text-shadow: 0 0 20rpx rgba(252, 211, 77, 0.25);
 }
 
 .value-detail { font-size: 24rpx; }
-.value-actions button { font-size: 24rpx; }
+.value-divider { opacity: 0.4; }
+.value-actions button { font-size: 24rpx; margin: 0; }
+.value-btn { padding: 14rpx !important; }
 
 /* 阶段选择 */
 .section-title {
   font-size: 32rpx;
   font-weight: 700;
-  margin: 12rpx 0 16rpx;
+  margin: 16rpx 0 20rpx;
+  color: var(--text-primary);
 }
 
 .stages-grid {
@@ -52,8 +58,13 @@
 .stage-card {
   position: relative;
   overflow: hidden;
-  padding: 28rpx;
+  padding: 28rpx 28rpx 28rpx 32rpx;
+  border-left: 6rpx solid transparent;
 }
+
+.stage-four { border-left-color: var(--stage-four); }
+.stage-six { border-left-color: var(--stage-six); }
+.stage-nine { border-left-color: var(--stage-nine); }
 
 .stage-name {
   font-size: 32rpx;
@@ -62,11 +73,24 @@
 
 .stage-badge {
   font-size: 22rpx;
-  background: var(--accent-dim);
-  color: #0f0f23;
-  padding: 4rpx 16rpx;
-  border-radius: 20rpx;
+  padding: 6rpx 18rpx;
+  border-radius: 999rpx;
   font-weight: 600;
+}
+
+.badge-four {
+  background: rgba(94, 234, 212, 0.18);
+  color: var(--stage-four);
+}
+
+.badge-six {
+  background: rgba(167, 139, 250, 0.18);
+  color: var(--stage-six);
+}
+
+.badge-nine {
+  background: rgba(251, 113, 133, 0.18);
+  color: var(--stage-nine);
 }
 
 .stage-desc {
@@ -79,14 +103,14 @@
 
 .progress-text {
   font-size: 22rpx;
-  color: var(--text-accent);
+  color: var(--accent);
 }
 
 .progress-bar {
   height: 8rpx;
-  background: var(--bg-cell);
+  background: var(--bg-secondary);
   border-radius: 4rpx;
-  margin-top: 8rpx;
+  margin-top: 10rpx;
   overflow: hidden;
 }
 
@@ -94,14 +118,19 @@
   height: 100%;
   background: linear-gradient(90deg, var(--accent-dim), var(--accent));
   border-radius: 4rpx;
-  transition: width 0.3s;
+  transition: width 0.3s ease;
 }
 
 .lock-overlay {
   position: absolute;
-  top: 0; left: 0; right: 0; bottom: 0;
-  background: rgba(0,0,0,0.5);
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(8, 14, 28, 0.65);
 }
+
+.lock-icon { font-size: 40rpx; }
 
 .lock-desc {
   color: var(--text-secondary);
@@ -112,18 +141,20 @@
 
 /* 底部入口 */
 .entries-area {
-  margin-top: 32rpx;
+  margin-top: 36rpx;
   padding-bottom: 40rpx;
 }
 
 .entry-btn {
-  padding: 28rpx 16rpx;
+  padding: 32rpx 16rpx;
   flex-direction: column;
   gap: 12rpx;
+  margin: 0;
 }
 
-.entry-icon { font-size: 40rpx; }
+.entry-icon { font-size: 44rpx; }
 .entry-label {
   font-size: 24rpx;
   color: var(--text-secondary);
+  font-weight: 500;
 }

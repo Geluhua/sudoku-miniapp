@@ -1,18 +1,23 @@
-.fav-page { min-height: 100vh; padding: 20rpx 24rpx; }
+.fav-page { min-height: 100vh; padding: 24rpx 28rpx; }
 
 .fav-list { display: flex; flex-direction: column; gap: 16rpx; }
 
-.fav-item { position: relative; }
+.fav-item {
+  position: relative;
+  transition: border-color var(--transition-fast);
+}
 
 .fav-icon {
-  width: 80rpx; height: 80rpx;
+  width: 80rpx;
+  height: 80rpx;
   background: var(--bg-secondary);
-  border-radius: 16rpx;
+  border-radius: var(--radius-md);
   font-size: 36rpx;
+  border: 1rpx solid var(--border-color);
 }
 
 .fav-stage { font-size: 30rpx; font-weight: 600; }
-.fav-detail, .fav-date { font-size: 22rpx; margin-top: 4rpx; }
+.fav-detail, .fav-date { font-size: 22rpx; margin-top: 4rpx; color: var(--text-secondary); }
 
 .fav-actions { flex-direction: column; gap: 8rpx; }
 .fav-actions .btn-small {
@@ -26,4 +31,4 @@
   padding: 160rpx 0;
 }
 
-.empty-icon { font-size: 72rpx; }
+.empty-icon { font-size: 72rpx; opacity: 0.6; }

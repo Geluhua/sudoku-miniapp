@@ -1,8 +1,8 @@
-.review-page { min-height: 100vh; padding: 20rpx 24rpx; }
+.review-page { min-height: 100vh; padding: 24rpx 28rpx; }
 
 .review-info { margin-bottom: 20rpx; }
 .review-stage { font-size: 30rpx; font-weight: 600; margin-bottom: 4rpx; }
-.review-step-indicator { font-size: 28rpx; font-weight: 600; }
+.review-step-indicator { font-size: 28rpx; font-weight: 600; color: var(--accent); }
 
 .board-container {
   display: flex;
@@ -15,12 +15,13 @@
   grid-template-columns: repeat(var(--size), 1fr);
   grid-template-rows: repeat(var(--size), 1fr);
   gap: 2rpx;
-  background: var(--border-color);
-  border: 4rpx solid var(--border-color);
-  border-radius: 8rpx;
+  background: var(--border-strong);
+  border: 5rpx solid var(--border-strong);
+  border-radius: var(--radius-md);
   aspect-ratio: 1;
   max-width: 560rpx;
   width: 100%;
+  box-shadow: var(--shadow-md), var(--shadow-glow);
 }
 
 .cell {
@@ -33,31 +34,31 @@
   font-weight: 600;
 }
 
-.cell.given { background: var(--bg-card); }
-.cell.new-fill { 
+.cell.given { background: var(--bg-secondary); }
+.cell.new-fill {
   background: var(--bg-cell-selected);
   color: var(--accent);
-  animation: popIn 0.3s;
+  animation: popIn 0.3s ease;
 }
 .cell.highlight { color: var(--accent); }
 
 @keyframes popIn {
-  0% { transform: scale(0.8); }
-  100% { transform: scale(1); }
+  0% { transform: scale(0.85); opacity: 0.6; }
+  100% { transform: scale(1); opacity: 1; }
 }
 
 .progress-container { margin: 16rpx 0; }
 .progress-track {
   height: 8rpx;
-  background: var(--bg-cell);
+  background: var(--bg-secondary);
   border-radius: 4rpx;
   overflow: hidden;
 }
 .progress-fill {
   height: 100%;
-  background: var(--accent);
+  background: linear-gradient(90deg, var(--accent-dim), var(--accent));
   border-radius: 4rpx;
-  transition: width 0.3s;
+  transition: width 0.3s ease;
 }
 
 .review-controls { margin-top: 24rpx; }

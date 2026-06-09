@@ -3,7 +3,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(180deg, #0f0f23 0%, #1a1a2e 50%, #16213e 100%);
+  background: linear-gradient(165deg, #0c1222 0%, #141c30 50%, #1a2540 100%);
   padding: 40rpx;
 }
 
@@ -28,6 +28,10 @@
   grid-template-rows: repeat(4, 70rpx);
   gap: 4rpx;
   margin-bottom: 40rpx;
+  padding: 12rpx;
+  background: var(--border-strong);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-md), var(--shadow-glow);
 }
 
 .logo-cell {
@@ -37,18 +41,23 @@
   align-items: center;
   justify-content: center;
   background: var(--bg-cell);
-  border-radius: 8rpx;
+  border-radius: 6rpx;
   font-size: 36rpx;
   font-weight: 700;
-  color: var(--text-accent);
+  color: var(--accent);
+}
+
+.logo-cell:nth-child(odd) {
+  color: var(--text-primary);
 }
 
 .app-name {
   font-size: 48rpx;
   font-weight: 700;
-  color: var(--text-accent);
+  color: var(--accent);
   margin-bottom: 12rpx;
   letter-spacing: 4rpx;
+  text-shadow: 0 0 32rpx rgba(94, 234, 212, 0.3);
 }
 
 .app-desc {
@@ -59,16 +68,22 @@
 .login-btn {
   width: 100%;
   height: 96rpx;
-  background: linear-gradient(135deg, #07c160, #06ad56);
+  background: linear-gradient(135deg, #2dd4bf 0%, #5eead4 100%);
   border-radius: 48rpx;
   display: flex;
   align-items: center;
   justify-content: center;
   margin-bottom: 32rpx;
+  box-shadow: 0 8rpx 24rpx rgba(94, 234, 212, 0.3);
+}
+
+.login-btn-hover {
+  transform: scale(0.98);
+  opacity: 0.92;
 }
 
 .login-btn-text {
-  color: #fff;
+  color: #0c1222;
   font-size: 32rpx;
   font-weight: 600;
 }
@@ -85,6 +100,7 @@
 
 .privacy-tip {
   font-size: 22rpx;
-  color: #555;
+  color: var(--text-secondary);
+  opacity: 0.6;
   text-align: center;
 }

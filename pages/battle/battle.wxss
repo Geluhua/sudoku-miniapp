@@ -1,4 +1,4 @@
-.battle-page { min-height: 100vh; padding: 20rpx 24rpx; }
+.battle-page { min-height: 100vh; padding: 24rpx 28rpx; }
 
 .section-title {
   font-size: 30rpx;
@@ -14,8 +14,9 @@
   font-size: 48rpx;
   font-weight: 700;
   color: var(--gold);
+  text-shadow: 0 0 16rpx rgba(252, 211, 77, 0.2);
 }
-.stat-label { font-size: 24rpx; }
+.stat-label { font-size: 24rpx; color: var(--text-secondary); }
 
 .battle-rank-list {
   display: flex;
@@ -41,9 +42,11 @@
 }
 
 .battle-rank-avatar {
-  width: 56rpx; height: 56rpx;
+  width: 56rpx;
+  height: 56rpx;
   border-radius: 50%;
   background: var(--bg-secondary);
+  border: 2rpx solid var(--border-color);
 }
 
 .battle-actions { margin-top: 32rpx; }

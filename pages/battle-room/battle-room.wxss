@@ -1,4 +1,4 @@
-.battle-room-page { min-height: 100vh; padding: 16rpx; }
+.battle-room-page { min-height: 100vh; padding: 20rpx 28rpx; }
 
 .waiting-area { padding: 160rpx 0; }
 .waiting-icon { font-size: 80rpx; margin-bottom: 24rpx; }
@@ -8,31 +8,46 @@
   font-weight: 700;
   color: var(--accent);
   letter-spacing: 8rpx;
-  font-family: monospace;
+  font-family: "SF Mono", "Menlo", monospace;
+  text-shadow: 0 0 20rpx rgba(94, 234, 212, 0.25);
 }
-.waiting-tip { font-size: 24rpx; }
+.waiting-tip { font-size: 24rpx; color: var(--text-secondary); }
 
 .battle-header {
   padding: 24rpx 32rpx;
-  background: var(--bg-card);
-  border-radius: 16rpx;
+  background: linear-gradient(135deg, var(--bg-card) 0%, var(--bg-elevated) 100%);
+  border-radius: var(--radius-md);
+  border: 1rpx solid var(--border-color);
+  box-shadow: var(--shadow-sm);
 }
+
 .player-label { font-size: 24rpx; color: var(--text-secondary); }
-.player-time { font-size: 36rpx; font-weight: 700; font-family: monospace; color: var(--accent); }
-.player-status { font-size: 22rpx; margin-top: 4rpx; }
-.vs-text { font-size: 32rpx; font-weight: 700; color: var(--pink); }
+.player-time {
+  font-size: 36rpx;
+  font-weight: 700;
+  font-family: "SF Mono", "Menlo", monospace;
+  color: var(--gold);
+}
+.player-status { font-size: 22rpx; margin-top: 4rpx; color: var(--text-secondary); }
+.vs-text {
+  font-size: 32rpx;
+  font-weight: 700;
+  color: var(--pink);
+  text-shadow: 0 0 16rpx rgba(251, 113, 133, 0.3);
+}
 
 .board-container { display: flex; justify-content: center; margin: 20rpx 0; }
 .board {
   display: grid;
   grid-template-columns: repeat(9, 1fr);
   gap: 2rpx;
-  background: var(--border-color);
-  border: 4rpx solid var(--border-color);
-  border-radius: 8rpx;
+  background: var(--border-strong);
+  border: 5rpx solid var(--border-strong);
+  border-radius: var(--radius-md);
   aspect-ratio: 1;
   max-width: 580rpx;
   width: 100%;
+  box-shadow: var(--shadow-md), var(--shadow-glow);
 }
 .cell {
   aspect-ratio: 1;
@@ -42,28 +57,45 @@
   justify-content: center;
   font-size: 28rpx;
   font-weight: 600;
+  transition: background var(--transition-fast);
 }
-.cell.given { background: var(--bg-card); }
-.cell.selected { background: var(--bg-cell-selected); box-shadow: inset 0 0 0 3rpx var(--accent); }
+.cell.given { background: var(--bg-secondary); }
+.cell.selected {
+  background: var(--bg-cell-selected);
+  box-shadow: inset 0 0 0 3rpx var(--accent);
+}
 .cell.related { background: var(--bg-cell-related); }
-.cell.error { color: var(--error); }
+.cell.error { color: var(--error); background: var(--error-soft); }
 
 .number-pad { padding: 12rpx 0; }
-.num-row { justify-content: center; gap: 8rpx; margin-bottom: 12rpx; }
+.num-row { justify-content: center; gap: 10rpx; margin-bottom: 12rpx; }
 .num-key {
-  width: 62rpx; height: 62rpx;
-  border-radius: 12rpx;
+  width: 62rpx;
+  height: 62rpx;
+  border-radius: var(--radius-md);
   background: var(--bg-card);
   border: 2rpx solid var(--border-color);
-  display: flex; align-items: center; justify-content: center;
-  font-size: 32rpx; font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 32rpx;
+  font-weight: 700;
   color: var(--text-primary);
+  box-shadow: var(--shadow-sm);
 }
-.num-key.active { border-color: var(--accent); background: var(--bg-cell-selected); color: var(--accent); }
+.num-key.active {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+  color: var(--accent);
+}
 .num-key.action { width: auto; font-size: 24rpx; background: var(--bg-secondary); }
-.num-key.erase { color: var(--error); border-color: var(--error); }
+.num-key.erase {
+  color: var(--error);
+  border-color: rgba(248, 113, 113, 0.4);
+  background: var(--error-soft);
+}
 
 .result-area { padding: 120rpx 0; }
 .result-icon { font-size: 100rpx; margin-bottom: 20rpx; }
 .result-title { font-size: 42rpx; font-weight: 700; margin-bottom: 24rpx; }
-.result-detail { font-size: 28rpx; margin-top: 8rpx; }
+.result-detail { font-size: 28rpx; margin-top: 8rpx; color: var(--text-secondary); }

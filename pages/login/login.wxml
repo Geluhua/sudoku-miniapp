@@ -9,7 +9,7 @@
       <text class="app-name">数独小游戏</text>
       <text class="app-desc">挑战你的逻辑思维</text>
     </view>
-    <button class="login-btn" bindtap="handleLogin" loading="{{loading}}">
+    <button class="login-btn" bindtap="handleLogin" loading="{{loading}}" hover-class="login-btn-hover">
       <text class="login-btn-text">微信一键登录</text>
     </button>
     <view class="guest-entry" bindtap="handleGuestLogin">

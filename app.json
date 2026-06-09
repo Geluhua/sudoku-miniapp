@@ -11,9 +11,9 @@
   ],
   "window": {
     "navigationBarTitleText": "数独小游戏",
-    "navigationBarBackgroundColor": "#1a1a2e",
+    "navigationBarBackgroundColor": "#141c30",
     "navigationBarTextStyle": "white",
-    "backgroundColor": "#0f0f23"
+    "backgroundColor": "#0c1222"
   },
   "sitemapLocation": "sitemap.json"
 }
