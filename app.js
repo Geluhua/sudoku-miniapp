@@ -48,9 +48,15 @@ App({
 
   loadLocalData() {
     const sudokuValue = storage.get('sudokuValue')
-    if (sudokuValue) this.globalData.sudokuValue = sudokuValue
+    if (sudokuValue) {
+      this.globalData.sudokuValue = Object.assign({}, this.globalData.sudokuValue, sudokuValue)
+    }
     const stageUnlock = storage.get('stageUnlock')
-    if (stageUnlock) this.globalData.stageUnlock = stageUnlock
+    if (stageUnlock) {
+      this.globalData.stageUnlock = Object.assign({}, this.globalData.stageUnlock, stageUnlock)
+    }
+    // 四宫始终可进入，避免旧缓存缺少 four 字段导致无法点击
+    this.globalData.stageUnlock.four = true
     const gameProgress = storage.get('gameProgress')
     if (gameProgress) this.globalData.gameProgress = gameProgress
     const soundEnabled = storage.get('soundEnabled')

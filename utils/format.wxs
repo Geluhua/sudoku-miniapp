@@ -1,0 +1,13 @@
+function formatTime(sec) {
+  sec = sec || 0
+  if (!sec) return '--:--'
+  var m = Math.floor(sec / 60)
+  var s = sec % 60
+  var ms = m < 10 ? '0' + m : '' + m
+  var ss = s < 10 ? '0' + s : '' + s
+  return ms + ':' + ss
+}
+
+module.exports = {
+  formatTime: formatTime
+}

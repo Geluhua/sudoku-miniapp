@@ -21,18 +21,25 @@ Page({
 
   refreshData() {
     const g = app.globalData
+    const stageUnlock = Object.assign(
+      { four: true, six: false, nine: false },
+      g.stageUnlock || {}
+    )
+    stageUnlock.four = true
+    g.stageUnlock = stageUnlock
     this.setData({
       userInfo: g.userInfo || {},
-      sudokuValue: g.sudokuValue,
+      sudokuValue: g.sudokuValue || { daily: 9, bonus: 0 },
       totalValue: app.getTotalSudokuValue(),
-      stageUnlock: g.stageUnlock,
-      gameProgress: g.gameProgress
+      stageUnlock: stageUnlock,
+      gameProgress: g.gameProgress || this.data.gameProgress
     })
   },
 
   // 选择阶段进入游戏
   selectStage(e) {
     const stage = e.currentTarget.dataset.stage
+    if (!stage) return
     // 检查是否已解锁
     if (!app.globalData.stageUnlock[stage]) {
       wx.showToast({ title: '该阶段尚未解锁', icon: 'none' })
@@ -58,6 +65,10 @@ Page({
     wx.navigateTo({
       url: '/pages/game/game?stage=' + stage
     })
+  },
+
+  onLockedTap() {
+    wx.showToast({ title: '该阶段尚未解锁', icon: 'none' })
   },
 
   // 分享游戏

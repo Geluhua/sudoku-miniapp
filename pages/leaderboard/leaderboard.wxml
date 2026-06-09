@@ -1,3 +1,4 @@
+<wxs src="../../utils/format.wxs" module="fmt" />
 <view class="lb-page">
   <!-- Tab切换 -->
   <view class="tabs flex-row">
@@ -27,10 +28,10 @@
       </view>
       <view class="rank-stats flex-col" wx:if="{{currentTab === 'clear'}}">
         <text class="rank-stat-main">{{item.clearCount || 0}}关</text>
-        <text class="rank-stat-sub">{{formatTime(item.totalTime || 0)}}</text>
+        <text class="rank-stat-sub">{{fmt.formatTime(item.totalTime || 0)}}</text>
       </view>
       <view class="rank-stats flex-col" wx:else>
-        <text class="rank-stat-main">{{formatTime(item.bestTime || 0)}}</text>
+        <text class="rank-stat-main">{{fmt.formatTime(item.bestTime || 0)}}</text>
       </view>
     </view>
   </view>
