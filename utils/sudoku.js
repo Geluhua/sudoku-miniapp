@@ -169,6 +169,20 @@ function isBoardComplete(board, solution, size) {
 }
 
 /**
+ * 根据界面格子状态判断是否已全部填对（避免填错时 _userBoard 未同步导致无法通关）
+ */
+function isCellsSolved(cells, solution, size) {
+  for (let r = 0; r < size; r++) {
+    for (let c = 0; c < size; c++) {
+      const idx = r * size + c
+      const val = Number(cells[idx].value)
+      if (!val || val !== Number(solution[r][c])) return false
+    }
+  }
+  return true
+}
+
+/**
  * 获取同行、同列的格子索引（不含自身）
  */
 function getRowColCells(row, col, size) {
@@ -205,6 +219,7 @@ module.exports = {
   getCurrentDifficulty,
   checkCell,
   isBoardComplete,
+  isCellsSolved,
   getRowColCells,
   getRelatedCells,
   getBoxConfig,

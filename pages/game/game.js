@@ -328,11 +328,27 @@ Page({
     for (var ci = 0; ci < cells.length; ci++) {
       if (cells[ci].value === num && num > 0) cells[ci].isSameNum = true
     }
-    cells[index].isSameNum = true; this.setData({ cells: cells }); audio.playSFX("fill")
+    cells[index].isSameNum = true
+    this.setData({ cells: cells })
+    audio.playSFX("fill")
+    this.checkGameComplete(cells)
+  },
 
-    if (sudoku.isBoardComplete(this._userBoard, this._solution, this.data.size)) {
-      this.onGameComplete()
+  syncUserBoardFromCells: function(cells) {
+    var size = this.data.size
+    for (var r = 0; r < size; r++) {
+      for (var c = 0; c < size; c++) {
+        this._userBoard[r][c] = Number(cells[r * size + c].value) || 0
+      }
     }
+  },
+
+  checkGameComplete: function(cells) {
+    if (this.data.showComplete) return
+    var board = cells || this.data.cells
+    if (!sudoku.isCellsSolved(board, this._solution, this.data.size)) return
+    this.syncUserBoardFromCells(board)
+    this.onGameComplete()
   },
 
   // ---- 擦除 ----
@@ -366,14 +382,21 @@ Page({
 
   // ---- 游戏完成 ----
   onGameComplete: function() {
+    if (this.data.showComplete) return
     this.stopTimer()
     var elapsed = this._elapsed
+    if (elapsed === undefined || elapsed === null) {
+      elapsed = Math.floor((Date.now() - this._startTime) / 1000)
+    }
     var isPassed = elapsed <= this.data.timeLimit
     var stage = this.data.stage
 
     audio.playSFX("clear")
 
     var progress = app.globalData.gameProgress
+    if (!progress[stage]) {
+      progress[stage] = { passed: 0, consecutiveCount: 0 }
+    }
     var modalTitle = isPassed ? "完成!" : "完成! 超时"
 
     if (isPassed) {
@@ -408,6 +431,9 @@ Page({
     var records = storage.get("game_records") || []
     records.unshift(record)
     storage.set("game_records", records.slice(0, 100))
+
+    var resultTip = isPassed ? "达标!" : "未达标"
+    wx.showToast({ title: resultTip, icon: isPassed ? "success" : "none", duration: 1200 })
 
     this.setData({
       showComplete: true,
